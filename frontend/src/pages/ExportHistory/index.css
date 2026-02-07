@@ -1,0 +1,38 @@
+/* Export History Page Styles */
+
+.export-history-page {
+  min-height: 100vh;
+}
+
+.export-history-page .ant-table-thead > tr > th {
+  background: #fafafa;
+  font-weight: 600;
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.export-history-page .ant-table-tbody > tr:hover > td {
+  background: #f5f5f5;
+}
+
+.export-history-page .ant-pagination {
+  margin-top: 16px;
+}
+
+/* 状态标签样式 */
+.export-history-page .ant-tag {
+  font-weight: 500;
+}
+
+/* 操作按钮样式 */
+.export-history-page .ant-btn-link {
+  padding: 0 8px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1280px) {
+  .export-history-page .ant-table {
+    overflow-x: auto;
+  }
+}

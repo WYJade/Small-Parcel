@@ -1,0 +1,17 @@
+/* Main Layout Styles */
+
+.main-layout {
+  min-height: 100vh;
+}
+
+.main-layout .ant-layout-sider {
+  background: #fff;
+}
+
+.main-layout .ant-menu-item-selected {
+  background-color: #e6f7ff;
+}
+
+.main-layout .ant-menu-item:hover {
+  background-color: #f5f5f5;
+}
