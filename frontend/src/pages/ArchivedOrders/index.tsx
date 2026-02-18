@@ -286,20 +286,36 @@ function ArchivedOrdersPage() {
             <div style={{ color: '#999', fontSize: '12px' }}>3820 Auburn Ro...</div>
           </div>
           
-          {/* Logistics 按钮 */}
-          <Button 
-            type="primary" 
-            size="small"
-            style={{ 
-              background: '#7c3aed', 
-              borderColor: '#7c3aed',
-              borderRadius: '4px',
-              fontSize: '12px',
-              height: '28px'
-            }}
-          >
-            Logistics
-          </Button>
+          {/* Logistics 和 Automation 按钮 */}
+          <Space size="small">
+            <Button 
+              type="primary" 
+              size="small"
+              style={{ 
+                background: '#7c3aed', 
+                borderColor: '#7c3aed',
+                borderRadius: '4px',
+                fontSize: '12px',
+                height: '28px'
+              }}
+            >
+              Logistics
+            </Button>
+            <Button 
+              size="small"
+              style={{ 
+                borderRadius: '4px',
+                fontSize: '12px',
+                height: '28px',
+                color: '#fff',
+                background: 'transparent',
+                borderColor: 'transparent'
+              }}
+              onClick={() => navigate('/webhook')}
+            >
+              Automation
+            </Button>
+          </Space>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>

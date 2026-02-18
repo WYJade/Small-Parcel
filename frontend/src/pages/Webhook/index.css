@@ -1,0 +1,209 @@
+.automation-menu {
+  padding: 0 12px;
+}
+
+.automation-menu .menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.automation-menu .menu-item:hover {
+  background: #f5f5f5;
+}
+
+.automation-menu .menu-item.active {
+  background: #7c3aed;
+  color: #fff;
+}
+
+.automation-menu .menu-icon {
+  font-size: 16px;
+}
+
+.webhook-tabs .ant-tabs-nav {
+  margin-bottom: 0;
+  padding-top: 16px;
+}
+
+.webhook-tabs .ant-tabs-tab {
+  font-size: 13px;
+  padding: 8px 16px;
+}
+
+.webhook-tabs .ant-tabs-tab-active {
+  font-weight: 600;
+}
+
+.webhook-modal .form-section {
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.webhook-modal .form-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.webhook-modal .section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #262626;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #7c3aed;
+  display: inline-block;
+}
+
+.webhook-modal .ant-form-item {
+  margin-bottom: 20px;
+}
+
+.webhook-modal .ant-form-item-label > label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #262626;
+}
+
+.webhook-modal .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  display: inline-block;
+  margin-right: 4px;
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: '*';
+}
+
+.webhook-modal .ant-input,
+.webhook-modal .ant-select-selector,
+.webhook-modal .ant-input-textarea {
+  font-size: 13px;
+}
+
+.webhook-modal .ant-form-item-extra {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.webhook-modal .ant-form-item-extra code {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 11px;
+  color: #d63384;
+  border: 1px solid #e8e8e8;
+}
+
+.webhook-modal .ant-form-item-extra a {
+  color: #7c3aed;
+  text-decoration: none;
+}
+
+.webhook-modal .ant-form-item-extra a:hover {
+  color: #9d5eff;
+  text-decoration: underline;
+}
+
+.webhook-modal .ant-select-selection-item {
+  font-size: 13px;
+}
+
+.webhook-modal .ant-input-number {
+  width: 100%;
+}
+
+.webhook-modal .ant-input-number-group-addon {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+/* Webhook Log Drawer Styles */
+.webhook-log-drawer .log-entry {
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.webhook-log-drawer .log-header {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.webhook-log-drawer .log-details {
+  margin-top: 12px;
+}
+
+.webhook-log-drawer .log-section {
+  margin-bottom: 16px;
+}
+
+.webhook-log-drawer .log-section:last-child {
+  margin-bottom: 0;
+}
+
+.webhook-log-drawer .log-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.webhook-log-drawer .log-info {
+  margin-bottom: 8px;
+}
+
+.webhook-log-drawer .log-code {
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 12px;
+  overflow-x: auto;
+}
+
+.webhook-log-drawer .log-code pre {
+  margin: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #262626;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.webhook-log-drawer .log-error {
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 4px;
+  padding: 12px;
+  color: #cf1322;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.webhook-log-drawer .ant-timeline-item-content {
+  margin-left: 28px;
+}
+
+.webhook-log-drawer .ant-drawer-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.webhook-log-drawer .ant-drawer-body {
+  padding: 24px;
+}
