@@ -864,23 +864,138 @@ function WebhookPage() {
             )}
           </div>
 
-          {/* Return Configuration */}
+          {/* Webhook Configuration */}
           <div className="form-section">
-            <h3 className="section-title">Return Configuration</h3>
+            <h3 className="section-title">Webhook Configuration</h3>
             
             <Form.Item 
-              label="Return Type" 
-              name="returnType" 
+              label="Data Format" 
+              name="dataFormat" 
               initialValue="json"
-              rules={[{ required: true, message: 'Please select return type' }]}
+              rules={[{ required: true, message: 'Please select data format' }]}
               required
+              extra="Select the format for webhook payload data"
             >
               <Select>
                 <Select.Option value="json">JSON</Select.Option>
                 <Select.Option value="xml">XML</Select.Option>
                 <Select.Option value="plain_text">Plain Text</Select.Option>
-                <Select.Option value="http_status_only">HTTP Status Only</Select.Option>
               </Select>
+            </Form.Item>
+
+            {/* Network Security */}
+            <div style={{ marginTop: '24px', marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#262626' }}>
+              Network Security
+            </div>
+
+            <Form.Item 
+              label="IP Whitelist" 
+              name="ipWhitelist"
+              extra="Enter allowed IP addresses, separated by commas. Leave blank to allow all IPs"
+            >
+              <Input.TextArea 
+                rows={2} 
+                placeholder="e.g., 192.168.1.100, 10.0.0.50" 
+              />
+            </Form.Item>
+
+            {/* HTTP Request */}
+            <div style={{ marginTop: '24px', marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#262626' }}>
+              HTTP Request
+            </div>
+
+            <Form.Item 
+              label="Request Timeout (s)" 
+              name="requestTimeout"
+              initialValue={30}
+              extra="HTTP request timeout in seconds, range: 5-60, default: 30"
+            >
+              <Input 
+                type="number" 
+                min={5} 
+                max={60} 
+                placeholder="30" 
+              />
+            </Form.Item>
+
+            <Form.Item 
+              label="Connection Pool Size" 
+              name="connectionPoolSize"
+              initialValue={10}
+              extra="HTTP connection pool size, controls concurrent connections, default: 10"
+            >
+              <Input 
+                type="number" 
+                min={1} 
+                max={100} 
+                placeholder="10" 
+              />
+            </Form.Item>
+
+            {/* Batch Push */}
+            <div style={{ marginTop: '24px', marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#262626' }}>
+              Batch Push
+            </div>
+
+            <Form.Item 
+              label="Batch Push" 
+              name="batchPush"
+              valuePropName="checked"
+              initialValue={false}
+              extra="Enable batch push mode for SFTP or high-volume scenarios, accumulates events before sending, default: disabled"
+            >
+              <Switch checkedChildren="Enabled" unCheckedChildren="Disabled" />
+            </Form.Item>
+
+            <Form.Item 
+              noStyle
+              shouldUpdate={(prevValues, currentValues) => 
+                prevValues.batchPush !== currentValues.batchPush
+              }
+            >
+              {({ getFieldValue }) => {
+                const batchPush = getFieldValue('batchPush')
+                
+                if (batchPush) {
+                  return (
+                    <>
+                      <Form.Item 
+                        label="Batch Size" 
+                        name="batchSize"
+                        initialValue={100}
+                        rules={[{ required: true, message: 'Please enter batch size' }]}
+                        required
+                        extra="Number of events per batch, default: 100"
+                      >
+                        <Input 
+                          type="number" 
+                          min={1} 
+                          max={1000} 
+                          placeholder="100" 
+                        />
+                      </Form.Item>
+
+                      <Form.Item 
+                        label="Batch Interval (s)" 
+                        name="batchInterval"
+                        initialValue={60}
+                        rules={[{ required: true, message: 'Please enter batch interval' }]}
+                        required
+                        extra="Time interval between batches in seconds, default: 60"
+                      >
+                        <Input 
+                          type="number" 
+                          min={1} 
+                          max={3600} 
+                          placeholder="60" 
+                        />
+                      </Form.Item>
+                    </>
+                  )
+                }
+                
+                return null
+              }}
             </Form.Item>
           </div>
 
