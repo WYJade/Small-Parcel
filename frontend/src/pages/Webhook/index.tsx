@@ -153,9 +153,15 @@ function WebhookPage() {
       httpProtocol: 'https',
       webhookUrl: 'https://api.example.com/webhook/tracking',
       httpMethod: 'POST',
-      authMethod: 'basic',
-      username: 'ops@example.com',
-      password: 'DSGFP9LxW4DVa',
+      authMethod: 'oauth2',
+      // OAuth 2.0 fields
+      clientId: 'abc123def456789',
+      clientSecret: '••••••••••••••',
+      tokenUrl: 'https://api.uberfreight.com/oauth2/accesstoken',
+      eventsUrl: 'https://api.uberfreight.com/tp-api/parcel/provider/v3/package-tracking',
+      grantType: 'client_credentials',
+      scope: 'write:tracking_events read_packages write_webhooks',
+      tokenExpiryBuffer: 300,
       returnType: record.returnType.toLowerCase(),
       retryTimes: 3,
       retryInterval: 60,
@@ -163,12 +169,12 @@ function WebhookPage() {
       trackingNumber: 'airbill_no',
       deliveryVerification: true,
       status: record.status,
-      remark: 'Sample webhook configuration'
+      remark: 'Sample webhook configuration with OAuth 2.0'
     })
     
     setTransportMethod('webhook_api')
     setHttpProtocol('https')
-    setAuthMethod('basic')
+    setAuthMethod('oauth2')
     setIsModalVisible(true)
   }
 
@@ -576,11 +582,11 @@ function WebhookPage() {
                   initialValue="password"
                   rules={[{ required: true, message: 'Please select SFTP auth method' }]}
                   required
-                  extra="Select: Password or Private Key"
+                  extra="Select authentication method: Password or SSH Key"
                 >
                   <Select>
                     <Select.Option value="password">Password</Select.Option>
-                    <Select.Option value="private_key">Private Key</Select.Option>
+                    <Select.Option value="ssh_key">SSH Key</Select.Option>
                   </Select>
                 </Form.Item>
 
@@ -600,27 +606,37 @@ function WebhookPage() {
                           name="sftpPassword"
                           rules={[{ required: true, message: 'Please enter SFTP password' }]}
                           required
-                          extra="Enter SFTP password (if Password authentication is selected)"
+                          extra="Enter SFTP password for authentication"
                         >
                           <Input.Password placeholder="Enter SFTP password" />
                         </Form.Item>
                       )
                     }
                     
-                    if (sftpAuthMethod === 'private_key') {
+                    if (sftpAuthMethod === 'ssh_key') {
                       return (
-                        <Form.Item 
-                          label="SFTP Private Key" 
-                          name="sftpPrivateKey"
-                          rules={[{ required: true, message: 'Please enter SFTP private key' }]}
-                          required
-                          extra="Enter SFTP private key content (if Private Key authentication is selected)"
-                        >
-                          <Input.TextArea 
-                            rows={4} 
-                            placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----" 
-                          />
-                        </Form.Item>
+                        <>
+                          <Form.Item 
+                            label="SSH Private Key" 
+                            name="sshPrivateKey"
+                            rules={[{ required: true, message: 'Please enter SSH private key' }]}
+                            required
+                            extra="Enter SSH private key content in PEM format for authentication"
+                          >
+                            <Input.TextArea 
+                              rows={4} 
+                              placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----" 
+                            />
+                          </Form.Item>
+
+                          <Form.Item 
+                            label="Passphrase (optional)" 
+                            name="sshPassphrase"
+                            extra="Enter passphrase if your SSH private key is encrypted (leave blank if not encrypted)"
+                          >
+                            <Input.Password placeholder="Enter passphrase (optional)" />
+                          </Form.Item>
+                        </>
                       )
                     }
                     
@@ -659,7 +675,8 @@ function WebhookPage() {
                 <Select.Option value="none">None</Select.Option>
                 <Select.Option value="basic">Basic Auth</Select.Option>
                 <Select.Option value="api_key">API Key</Select.Option>
-                <Select.Option value="bearer">Bearer Token</Select.Option>
+                <Select.Option value="oauth2">OAuth 2.0</Select.Option>
+                <Select.Option value="hmac">HMAC Signature</Select.Option>
               </Select>
             </Form.Item>
 
@@ -716,20 +733,132 @@ function WebhookPage() {
               </>
             )}
 
-            {/* Bearer Token */}
-            {authMethod === 'bearer' && (
+            {/* HMAC Signature */}
+            {authMethod === 'hmac' && (
               <>
                 <Form.Item 
-                  label="Bearer Token" 
-                  name="bearerToken" 
-                  rules={[{ required: true, message: 'Please enter bearer token' }]}
+                  label="Secret Key" 
+                  name="hmacSecretKey" 
+                  rules={[{ required: true, message: 'Please enter HMAC secret key' }]}
                   required
-                  extra="Enter Bearer token, e.g., eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  extra="Enter HMAC secret key for signature generation"
                 >
-                  <Input.TextArea 
-                    rows={3} 
-                    placeholder="Enter bearer token" 
-                  />
+                  <Input.Password placeholder="Enter secret key" />
+                </Form.Item>
+
+                <Form.Item 
+                  label="Algorithm" 
+                  name="hmacAlgorithm" 
+                  initialValue="sha256"
+                  rules={[{ required: true, message: 'Please select HMAC algorithm' }]}
+                  required
+                  extra="Select HMAC algorithm for signature generation"
+                >
+                  <Select>
+                    <Select.Option value="sha256">HMAC-SHA256</Select.Option>
+                    <Select.Option value="sha512">HMAC-SHA512</Select.Option>
+                    <Select.Option value="sha1">HMAC-SHA1</Select.Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item 
+                  label="Signature Header" 
+                  name="hmacSignatureHeader"
+                  initialValue="X-Signature"
+                  rules={[{ required: true, message: 'Please enter signature header name' }]}
+                  required
+                  extra="Enter the header name for HMAC signature, e.g., X-Signature"
+                >
+                  <Input placeholder="X-Signature" />
+                </Form.Item>
+              </>
+            )}
+
+            {/* OAuth 2.0 */}
+            {authMethod === 'oauth2' && (
+              <>
+                <Form.Item 
+                  label="Client ID" 
+                  name="clientId" 
+                  rules={[{ required: true, message: 'Please enter OAuth 2.0 Client ID' }]}
+                  required
+                  extra="Enter OAuth 2.0 Client ID, e.g., abc123def456..., obtained from Partner"
+                >
+                  <Input placeholder="abc123def456..." />
+                </Form.Item>
+
+                <Form.Item 
+                  label="Client Secret" 
+                  name="clientSecret" 
+                  rules={[{ required: true, message: 'Please enter Client Secret' }]}
+                  required
+                  extra="Enter OAuth 2.0 Client Secret (password), must be encrypted for storage, e.g., ••••••••••••••, obtained from Partner"
+                >
+                  <Input.Password placeholder="Enter client secret" />
+                </Form.Item>
+
+                <Form.Item 
+                  label="Token URL" 
+                  name="tokenUrl" 
+                  rules={[
+                    { required: true, message: 'Please enter Token URL' },
+                    { type: 'url', message: 'Please enter a valid URL' }
+                  ]}
+                  required
+                  extra={
+                    <>
+                      Enter the endpoint URL to obtain Access Token, e.g., <a href="https://api.uberfreight.com/oauth2/accesstoken" target="_blank" rel="noopener noreferrer">https://api.uberfreight.com/oauth2/accesstoken</a>
+                    </>
+                  }
+                >
+                  <Input placeholder="https://api.uberfreight.com/oauth2/accesstoken" />
+                </Form.Item>
+
+                <Form.Item 
+                  label="Events/Webhook URL" 
+                  name="eventsUrl" 
+                  rules={[
+                    { required: true, message: 'Please enter Events/Webhook URL' },
+                    { type: 'url', message: 'Please enter a valid URL' }
+                  ]}
+                  required
+                  extra={
+                    <>
+                      Enter the Webhook target URL to receive events, e.g., <a href="https://api.uberfreight.com/tp-api/parcel/provider/v3/package-tracking" target="_blank" rel="noopener noreferrer">https://api.uberfreight.com/tp-api/parcel/provider/v3/package-tracking</a>
+                    </>
+                  }
+                >
+                  <Input placeholder="https://api.uberfreight.com/tp-api/parcel/provider/v3/package-tracking" />
+                </Form.Item>
+
+                <Form.Item 
+                  label="Grant Type" 
+                  name="grantType" 
+                  initialValue="client_credentials"
+                  rules={[{ required: true, message: 'Please select Grant Type' }]}
+                  required
+                  extra="Client credentials mode for service-to-service authentication"
+                >
+                  <Select disabled>
+                    <Select.Option value="client_credentials">client_credentials</Select.Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item 
+                  label="Scope" 
+                  name="scope"
+                  extra="Enter the requested permission scope (multiple scopes separated by spaces), e.g., write:tracking_events read_packages write_webhooks"
+                >
+                  <Input placeholder="Enter scope" />
+                </Form.Item>
+
+                <Form.Item 
+                  label="Token Expiry Buffer (sec)" 
+                  name="tokenExpiryBuffer"
+                  initialValue={300}
+                  extra="Enter token expiry buffer time in seconds, used for automatic token refresh before expiration"
+                >
+                  <Input type="number" min={1} placeholder="300" />
                 </Form.Item>
               </>
             )}
