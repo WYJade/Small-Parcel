@@ -481,28 +481,25 @@ function WebhookPage() {
               </Select>
             </Form.Item>
 
-            {/* HTTP Protocol - Only show when Webhook API is selected */}
-            {transportMethod === 'webhook_api' && (
-              <Form.Item 
-                label="HTTP Protocol" 
-                name="httpProtocol" 
-                initialValue="https"
-                rules={[{ required: true, message: 'Please select HTTP protocol' }]}
-                required
-              >
-                <Select 
-                  placeholder="Select HTTP protocol"
-                  onChange={(value) => setHttpProtocol(value)}
-                >
-                  <Select.Option value="http">HTTP</Select.Option>
-                  <Select.Option value="https">HTTPS</Select.Option>
-                </Select>
-              </Form.Item>
-            )}
-
             {/* Webhook API Configuration */}
             {transportMethod === 'webhook_api' && (
               <>
+                <Form.Item 
+                  label="HTTP Protocol" 
+                  name="httpProtocol" 
+                  initialValue="https"
+                  rules={[{ required: true, message: 'Please select HTTP protocol' }]}
+                  required
+                >
+                  <Select 
+                    placeholder="Select HTTP protocol"
+                    onChange={(value) => setHttpProtocol(value)}
+                  >
+                    <Select.Option value="http">HTTP</Select.Option>
+                    <Select.Option value="https">HTTPS</Select.Option>
+                  </Select>
+                </Form.Item>
+
                 <Form.Item 
                   label="Webhook URL" 
                   name="webhookUrl" 
@@ -528,6 +525,49 @@ function WebhookPage() {
                     <Select.Option value="POST">POST</Select.Option>
                     <Select.Option value="PUT">PUT</Select.Option>
                   </Select>
+                </Form.Item>
+
+                <Form.Item 
+                  label="Data Format" 
+                  name="dataFormat" 
+                  initialValue="json"
+                  rules={[{ required: true, message: 'Please select data format' }]}
+                  required
+                  extra="Select the format for webhook payload data"
+                >
+                  <Select>
+                    <Select.Option value="json">JSON</Select.Option>
+                    <Select.Option value="xml">XML</Select.Option>
+                    <Select.Option value="plain_text">Plain Text</Select.Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item 
+                  label="Request Timeout (s)" 
+                  name="requestTimeout"
+                  initialValue={30}
+                  extra="HTTP request timeout in seconds, range: 5-60, default: 30"
+                >
+                  <Input 
+                    type="number" 
+                    min={5} 
+                    max={60} 
+                    placeholder="30" 
+                  />
+                </Form.Item>
+
+                <Form.Item 
+                  label="Connection Pool Size" 
+                  name="connectionPoolSize"
+                  initialValue={10}
+                  extra="HTTP connection pool size, controls concurrent connections, default: 10"
+                >
+                  <Input 
+                    type="number" 
+                    min={1} 
+                    max={100} 
+                    placeholder="10" 
+                  />
                 </Form.Item>
               </>
             )}
@@ -864,30 +904,10 @@ function WebhookPage() {
             )}
           </div>
 
-          {/* Webhook Configuration */}
+          {/* Network Security */}
           <div className="form-section">
-            <h3 className="section-title">Webhook Configuration</h3>
+            <h3 className="section-title">Network Security</h3>
             
-            <Form.Item 
-              label="Data Format" 
-              name="dataFormat" 
-              initialValue="json"
-              rules={[{ required: true, message: 'Please select data format' }]}
-              required
-              extra="Select the format for webhook payload data"
-            >
-              <Select>
-                <Select.Option value="json">JSON</Select.Option>
-                <Select.Option value="xml">XML</Select.Option>
-                <Select.Option value="plain_text">Plain Text</Select.Option>
-              </Select>
-            </Form.Item>
-
-            {/* Network Security */}
-            <div style={{ marginTop: '24px', marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#262626' }}>
-              Network Security
-            </div>
-
             <Form.Item 
               label="IP Whitelist" 
               name="ipWhitelist"
@@ -898,45 +918,12 @@ function WebhookPage() {
                 placeholder="e.g., 192.168.1.100, 10.0.0.50" 
               />
             </Form.Item>
+          </div>
 
-            {/* HTTP Request */}
-            <div style={{ marginTop: '24px', marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#262626' }}>
-              HTTP Request
-            </div>
-
-            <Form.Item 
-              label="Request Timeout (s)" 
-              name="requestTimeout"
-              initialValue={30}
-              extra="HTTP request timeout in seconds, range: 5-60, default: 30"
-            >
-              <Input 
-                type="number" 
-                min={5} 
-                max={60} 
-                placeholder="30" 
-              />
-            </Form.Item>
-
-            <Form.Item 
-              label="Connection Pool Size" 
-              name="connectionPoolSize"
-              initialValue={10}
-              extra="HTTP connection pool size, controls concurrent connections, default: 10"
-            >
-              <Input 
-                type="number" 
-                min={1} 
-                max={100} 
-                placeholder="10" 
-              />
-            </Form.Item>
-
-            {/* Batch Push */}
-            <div style={{ marginTop: '24px', marginBottom: '12px', fontSize: '14px', fontWeight: 500, color: '#262626' }}>
-              Batch Push
-            </div>
-
+          {/* Batch Push Configuration */}
+          <div className="form-section">
+            <h3 className="section-title">Batch Push Configuration</h3>
+            
             <Form.Item 
               label="Batch Push" 
               name="batchPush"
