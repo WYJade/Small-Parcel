@@ -296,7 +296,7 @@ function WebhookPage() {
       title: 'Operations',
       key: 'operations',
       width: 150,
-      render: (_, record) => (
+      render: (_: unknown, record: WebhookData) => (
         <Space>
           <Button 
             type="link" 
