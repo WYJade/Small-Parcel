@@ -426,7 +426,11 @@ function SmallParcelPage() {
                         ]
                       }}
                     >
-                      <Button size="small">
+                      <Button 
+                        type="primary" 
+                        size="small"
+                        style={{ background: '#1890ff', borderColor: '#1890ff' }}
+                      >
                         Actions <DownOutlined />
                       </Button>
                     </Dropdown>
