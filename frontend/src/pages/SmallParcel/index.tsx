@@ -394,14 +394,14 @@ function SmallParcelPage() {
         <Layout>
           <Content style={{ background: '#fff' }}>
             {/* 页面标题和描述 */}
-            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <h1 style={{ fontSize: '20px', fontWeight: 600, margin: '0 0 4px 0' }}>Small Parcel</h1>
-                <p style={{ color: '#666', margin: 0, fontSize: '13px' }}>
-                  Manage small parcel shipments, optimize carrier selection, and track individual package movements.
-                </p>
-              </div>
-              <Space size="middle">
+            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid #f0f0f0' }}>
+              <h1 style={{ fontSize: '20px', fontWeight: 600, margin: '0 0 4px 0' }}>Small Parcel</h1>
+              <p style={{ color: '#666', margin: '0 0 16px 0', fontSize: '13px' }}>
+                Manage small parcel shipments, optimize carrier selection, and track individual package movements.
+              </p>
+              
+              {/* 订单类型切换和操作按钮 */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Radio.Group 
                   value={orderType} 
                   onChange={(e) => setOrderType(e.target.value)}
@@ -411,23 +411,28 @@ function SmallParcelPage() {
                   <Radio.Button value="active">Active Orders</Radio.Button>
                   <Radio.Button value="archived">Archived Orders</Radio.Button>
                 </Radio.Group>
-                <Button icon={<DownloadOutlined />} size="small">
-                  Export
-                </Button>
-                <Dropdown
-                  menu={{
-                    items: [
-                      { key: 'action1', label: 'Bulk Update' },
-                      { key: 'action2', label: 'Bulk Delete' },
-                      { key: 'action3', label: 'Export Selected' }
-                    ]
-                  }}
-                >
-                  <Button size="small">
-                    Actions <DownOutlined />
+                
+                <Space size="middle">
+                  <Button icon={<DownloadOutlined />} size="small">
+                    Export
                   </Button>
-                </Dropdown>
-              </Space>
+                  {orderType === 'active' && (
+                    <Dropdown
+                      menu={{
+                        items: [
+                          { key: 'action1', label: 'Bulk Update' },
+                          { key: 'action2', label: 'Bulk Delete' },
+                          { key: 'action3', label: 'Export Selected' }
+                        ]
+                      }}
+                    >
+                      <Button size="small">
+                        Actions <DownOutlined />
+                      </Button>
+                    </Dropdown>
+                  )}
+                </Space>
+              </div>
             </div>
 
             {/* 搜索和过滤栏 - 根据订单类型显示不同的查询条件 */}
