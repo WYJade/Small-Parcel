@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Layout, Input, Button, Table, Space, Dropdown, Menu, Tag, Radio } from 'antd'
-import { SearchOutlined, FilterOutlined, SettingOutlined, DownOutlined, InboxOutlined, DownloadOutlined } from '@ant-design/icons'
+import { SearchOutlined, FilterOutlined, SettingOutlined, DownOutlined, InboxOutlined, DownloadOutlined, FileSearchOutlined } from '@ant-design/icons'
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
 import './index.css'
@@ -170,6 +170,7 @@ const mockOrders: SmallParcelOrder[] = [
 function SmallParcelPage() {
   const navigate = useNavigate()
   const [orderType, setOrderType] = useState<'active' | 'archived'>('active')
+  const [hasSearched] = useState(false) // 将来可以通过搜索按钮设置为 true
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
     pageSize: 10,
@@ -502,19 +503,45 @@ function SmallParcelPage() {
               </Space>
             </div>
 
-            {/* 订单表格 */}
+            {/* 订单表格或提示页面 */}
             <div style={{ padding: '0' }}>
-              <Table
-                columns={columns}
-                dataSource={mockOrders}
-                rowKey="airbillNo"
-                pagination={pagination}
-                onChange={handleTableChange}
-                scroll={{ x: 1600 }}
-                size="small"
-                bordered={false}
-                style={{ fontSize: '12px' }}
-              />
+              {orderType === 'archived' && !hasSearched ? (
+                <div style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  minHeight: '400px',
+                  padding: '60px 20px'
+                }}>
+                  <FileSearchOutlined style={{ fontSize: '80px', color: '#d9d9d9', marginBottom: '24px' }} />
+                  <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#262626', marginBottom: '12px' }}>
+                    Ready to Search Archived Orders
+                  </h2>
+                  <p style={{ 
+                    fontSize: '14px', 
+                    color: '#8c8c8c', 
+                    textAlign: 'center', 
+                    maxWidth: '600px',
+                    lineHeight: '1.6'
+                  }}>
+                    Please enter your search criteria above and click the "Search" button to view archived orders. 
+                    You can search by Airbill Number, Customer, Billing Reference, or use filters to narrow down your results.
+                  </p>
+                </div>
+              ) : (
+                <Table
+                  columns={columns}
+                  dataSource={mockOrders}
+                  rowKey="airbillNo"
+                  pagination={pagination}
+                  onChange={handleTableChange}
+                  scroll={{ x: 1600 }}
+                  size="small"
+                  bordered={false}
+                  style={{ fontSize: '12px' }}
+                />
+              )}
             </div>
           </Content>
         </Layout>
