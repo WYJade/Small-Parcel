@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Layout, Input, Button, Table, Space, Dropdown, Menu, Tag } from 'antd'
+import { Layout, Input, Button, Table, Space, Dropdown, Menu, Tag, Checkbox } from 'antd'
 import { SearchOutlined, FilterOutlined, SettingOutlined, DownOutlined, InboxOutlined, DownloadOutlined } from '@ant-design/icons'
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
@@ -26,143 +26,143 @@ interface SmallParcelOrder {
 // 模拟数据 - 与图片完全一致
 const mockOrders: SmallParcelOrder[] = [
   {
-    airbillNo: 'ZYG8E1SY',
-    customerName: 'ClarperLeon2...',
+    airbillNo: 'ZYG8FT4R',
+    customerName: 'Carperts.co...',
     billingRef: '',
     status: 'Created',
-    serviceType: 'LSD Ground*',
-    serviceCenter: 'SAT',
-    fromCity: 'GRAND PRAIRIE',
-    toCity: 'SAN ANTONIO',
-    toAttn: 'GUENELA MARI...',
-    toZip: '78233',
-    createTime: '02/06/2026 08...',
-    lastOperationTime: '-'
-  },
-  {
-    airbillNo: 'ZYG8EFSX',
-    customerName: 'Maersk ECLOO...',
-    billingRef: '',
-    status: 'Created',
-    serviceType: 'eCommerce de...',
-    serviceCenter: 'AUS',
-    fromCity: 'DALLAS',
-    toCity: 'ROUND ROCK',
-    toAttn: 'SERGIO BIDEN',
-    toZip: '78665',
-    createTime: '02/06/2026 08...',
-    lastOperationTime: '-'
-  },
-  {
-    airbillNo: 'ZYG8EFTW',
-    customerName: 'Maersk ECLOO...',
-    billingRef: '',
-    status: 'Created',
-    serviceType: 'eCommerce de...',
-    serviceCenter: 'SHE',
-    fromCity: 'DALLAS',
-    toCity: 'PEARLAND',
-    toAttn: 'YOSEF ALSIM...',
-    toZip: '77584',
-    createTime: '02/06/2026 08...',
-    lastOperationTime: '-'
-  },
-  {
-    airbillNo: 'ZYG8EFRY',
-    customerName: 'ClarperLeon2...',
-    billingRef: '',
-    status: 'Created',
-    serviceType: 'LSD Ground*',
-    serviceCenter: 'IAH',
-    fromCity: 'GRAND PRAIRIE',
-    toCity: 'TOMBALL',
-    toAttn: 'NICHOLAS PAD...',
-    toZip: '77375',
-    createTime: '02/06/2026 08...',
-    lastOperationTime: '-'
-  },
-  {
-    airbillNo: 'ZYG8EFGU',
-    customerName: 'ClarperLeon C...',
-    billingRef: '',
-    status: 'Created',
-    serviceType: 'eCommerce de...',
+    serviceType: 'eCommerce...',
     serviceCenter: 'FTW',
-    fromCity: 'GRAND PRAIRIE',
-    toCity: 'GRAND PRAIRIE',
-    toAttn: 'MAREEM ALAU...',
-    toZip: '75052',
-    createTime: '02/06/2026 08...',
+    fromCity: 'GRAND PRA...',
+    toCity: 'ARLINGTON',
+    toAttn: 'Cory Ros...',
+    toZip: '76002',
+    createTime: '02/27/2026 ...',
     lastOperationTime: '-'
   },
   {
-    airbillNo: 'ZYG8EFGT',
-    customerName: 'Maersk ECLOO...',
+    airbillNo: 'ZYQGFT4G',
+    customerName: 'Carperts.co...',
     billingRef: '',
     status: 'Created',
-    serviceType: 'eCommerce de...',
-    serviceCenter: 'REZ',
-    fromCity: 'DALLAS',
-    toCity: 'DALLAS',
-    toAttn: 'SERGIO BIDEN',
-    toZip: '75248',
-    createTime: '02/06/2026 08...',
+    serviceType: 'LSO Ground*',
+    serviceCenter: 'FTW',
+    fromCity: 'GRAND PRA...',
+    toCity: 'DENTON',
+    toAttn: 'CORY HER...',
+    toZip: '76210',
+    createTime: '02/27/2026 ...',
     lastOperationTime: '-'
   },
   {
-    airbillNo: 'ZYG8EFFS',
-    customerName: 'ClarperLeon2...',
-    billingRef: '',
+    airbillNo: 'GL00SGFC',
+    customerName: 'GLS USP07...',
+    billingRef: 'CH53189600',
     status: 'Created',
-    serviceType: 'LSD Ground*',
-    serviceCenter: 'TUL',
-    fromCity: 'GRAND PRAIRIE',
-    toCity: 'TULSA',
-    toAttn: 'DANIEL LEON',
-    toZip: '74128',
-    createTime: '02/06/2026 08...',
-    lastOperationTime: '-'
-  },
-  {
-    airbillNo: 'ZYG8EF6R',
-    customerName: 'Maersk ECLOO...',
-    billingRef: '',
-    status: 'Created',
-    serviceType: 'eCommerce de...',
-    serviceCenter: 'IAH',
-    fromCity: 'DALLAS',
-    toCity: 'HOUSTON',
-    toAttn: 'ENHANSI HADL...',
-    toZip: '77036',
-    createTime: '02/06/2026 08...',
-    lastOperationTime: '-'
-  },
-  {
-    airbillNo: 'ZYG8EFGQ',
-    customerName: 'Maersk ECLOO...',
-    billingRef: '',
-    status: 'Created',
-    serviceType: 'eCommerce de...',
-    serviceCenter: 'SAT',
-    fromCity: 'DALLAS',
-    toCity: 'SAN ANTONIO',
-    toAttn: 'ERIKA MARTENS',
-    toZip: '78230',
-    createTime: '02/06/2026 08...',
-    lastOperationTime: '-'
-  },
-  {
-    airbillNo: 'ZYG8EFFN',
-    customerName: 'Maersk ECLOO...',
-    billingRef: '',
-    status: 'Created',
-    serviceType: 'eCommerce de...',
+    serviceType: 'LSO Ground*',
     serviceCenter: 'AUS',
-    fromCity: 'DALLAS',
-    toCity: 'AUSTIN',
-    toAttn: 'KAYLA CARPEN...',
-    toZip: '78757',
-    createTime: '02/06/2026 08...',
+    fromCity: 'Dallas',
+    toCity: 'Austin',
+    toAttn: 'David LaPaul',
+    toZip: '78765',
+    createTime: '02/27/2026 ...',
+    lastOperationTime: '-'
+  },
+  {
+    airbillNo: 'GL00SGFB',
+    customerName: 'GLS USP07...',
+    billingRef: 'CH53876482',
+    status: 'Created',
+    serviceType: 'LSO Ground*',
+    serviceCenter: 'SAT',
+    fromCity: 'Dallas',
+    toCity: 'San Antonio',
+    toAttn: 'Lyda Consu...',
+    toZip: '78240',
+    createTime: '02/27/2026 ...',
+    lastOperationTime: '-'
+  },
+  {
+    airbillNo: 'GL00SGFA',
+    customerName: 'GLS USP07...',
+    billingRef: 'CH53162554',
+    status: 'Created',
+    serviceType: 'LSO Ground*',
+    serviceCenter: 'AUS',
+    fromCity: 'Dallas',
+    toCity: 'Austin',
+    toAttn: 'Kevin Wede...',
+    toZip: '78723',
+    createTime: '02/27/2026 ...',
+    lastOperationTime: '-'
+  },
+  {
+    airbillNo: 'GL00SGF6',
+    customerName: 'GLS USP07...',
+    billingRef: 'CH53969980',
+    status: 'Created',
+    serviceType: 'LSO Ground*',
+    serviceCenter: 'AUS',
+    fromCity: 'Dallas',
+    toCity: 'Georgetown',
+    toAttn: 'Tony Reyes',
+    toZip: '78633',
+    createTime: '02/27/2026 ...',
+    lastOperationTime: '-'
+  },
+  {
+    airbillNo: 'GL00SGF9',
+    customerName: 'GLS USP07...',
+    billingRef: 'CH53911196',
+    status: 'Created',
+    serviceType: 'LSO Ground*',
+    serviceCenter: 'AUS',
+    fromCity: 'Dallas',
+    toCity: 'Georgetown',
+    toAttn: 'Tony Reyes',
+    toZip: '78633',
+    createTime: '02/27/2026 ...',
+    lastOperationTime: '-'
+  },
+  {
+    airbillNo: 'GL00SGF7',
+    customerName: 'GLS USP07...',
+    billingRef: 'CH53710102',
+    status: 'Created',
+    serviceType: 'LSO Ground*',
+    serviceCenter: 'AUS',
+    fromCity: 'Dallas',
+    toCity: 'Austin',
+    toAttn: 'Thomas Mo...',
+    toZip: '78749',
+    createTime: '02/27/2026 ...',
+    lastOperationTime: '-'
+  },
+  {
+    airbillNo: 'GL00SGF5',
+    customerName: 'GLS USP07...',
+    billingRef: 'CH53699843',
+    status: 'Created',
+    serviceType: 'LSO Ground*',
+    serviceCenter: 'AUS',
+    fromCity: 'Dallas',
+    toCity: 'Manor',
+    toAttn: 'Brittney Mann',
+    toZip: '78653',
+    createTime: '02/27/2026 ...',
+    lastOperationTime: '-'
+  },
+  {
+    airbillNo: 'GL00SGF8',
+    customerName: 'GLS USP07...',
+    billingRef: 'CH53786662',
+    status: 'Created',
+    serviceType: 'LSO Ground*',
+    serviceCenter: 'SHB',
+    fromCity: 'Dallas',
+    toCity: 'LEAGUE CITY',
+    toAttn: 'Greg fogg',
+    toZip: '77573',
+    createTime: '02/27/2026 ...',
     lastOperationTime: '-'
   }
 ]
@@ -172,7 +172,7 @@ function SmallParcelPage() {
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
     pageSize: 10,
-    total: 40267,
+    total: 38049,
     showSizeChanger: true,
     pageSizeOptions: ['10', '20', '50', '100'],
     showTotal: (total) => `Total: ${total.toLocaleString()} records`,
@@ -393,60 +393,72 @@ function SmallParcelPage() {
         <Layout>
           <Content style={{ background: '#fff' }}>
             {/* 页面标题和描述 */}
-            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid #f0f0f0' }}>
-              <h1 style={{ fontSize: '20px', fontWeight: 600, margin: '0 0 4px 0' }}>Small Parcel</h1>
-              <p style={{ color: '#666', margin: 0, fontSize: '13px' }}>
-                Manage small parcel shipments, optimize carrier selection, and track individual package movements.
-              </p>
+            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <h1 style={{ fontSize: '20px', fontWeight: 600, margin: '0 0 4px 0' }}>Small Parcel</h1>
+                <p style={{ color: '#666', margin: 0, fontSize: '13px' }}>
+                  Manage small parcel shipments, optimize carrier selection, and track individual package movements.
+                </p>
+              </div>
+              <Space size="middle">
+                <Checkbox>Archived Date Only</Checkbox>
+                <Button icon={<DownloadOutlined />} size="small">Export</Button>
+                <Dropdown
+                  menu={{
+                    items: [
+                      { key: 'action1', label: 'Bulk Update' },
+                      { key: 'action2', label: 'Bulk Delete' },
+                      { key: 'action3', label: 'Export Selected' }
+                    ]
+                  }}
+                >
+                  <Button size="small">
+                    Actions <DownOutlined />
+                  </Button>
+                </Dropdown>
+              </Space>
             </div>
 
             {/* 搜索和过滤栏 */}
             <div style={{ padding: '12px 24px', borderBottom: '1px solid #f0f0f0', background: '#fafafa' }}>
-              <Space size="middle" style={{ width: '100%', justifyContent: 'space-between' }}>
-                <Space size="middle">
-                  <Input
-                    placeholder="AIRBILL NO"
-                    style={{ width: 150, fontSize: '13px' }}
-                    size="small"
-                  />
-                  <Input
-                    placeholder="BILLING REF"
-                    style={{ width: 150, fontSize: '13px' }}
-                    size="small"
-                  />
-                  <Input
-                    placeholder="CUSTOMER NAME"
-                    style={{ width: 200, fontSize: '13px' }}
-                    size="small"
-                  />
-                  <Button 
-                    icon={<FilterOutlined />} 
-                    size="small"
-                    style={{ fontSize: '13px' }}
-                  >
-                    More
-                  </Button>
-                  <Button 
-                    icon={<SearchOutlined />} 
-                    size="small"
-                    style={{ fontSize: '13px' }}
-                  >
-                    Advanced Search
-                  </Button>
-                  <Button 
-                    icon={<SettingOutlined />} 
-                    size="small"
-                    style={{ fontSize: '13px' }}
-                  >
-                    Columns
-                  </Button>
-                </Space>
+              <Space size="middle">
+                <Input
+                  placeholder="AIRBILL NO"
+                  style={{ width: 150, fontSize: '13px' }}
+                  size="small"
+                />
+                <Input
+                  placeholder="BILLING REF"
+                  style={{ width: 150, fontSize: '13px' }}
+                  size="small"
+                />
                 <Button 
-                  icon={<DownloadOutlined />} 
+                  icon={<FilterOutlined />} 
                   size="small"
                   style={{ fontSize: '13px' }}
                 >
-                  Export
+                  More <span style={{ 
+                    background: '#1890ff', 
+                    color: '#fff', 
+                    borderRadius: '10px', 
+                    padding: '0 6px', 
+                    fontSize: '11px',
+                    marginLeft: '4px'
+                  }}>4</span>
+                </Button>
+                <Button 
+                  icon={<SearchOutlined />} 
+                  size="small"
+                  style={{ fontSize: '13px' }}
+                >
+                  Advanced Search
+                </Button>
+                <Button 
+                  icon={<SettingOutlined />} 
+                  size="small"
+                  style={{ fontSize: '13px' }}
+                >
+                  Columns
                 </Button>
               </Space>
             </div>
