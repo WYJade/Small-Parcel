@@ -420,9 +420,11 @@ function SmallParcelPage() {
                     <Dropdown
                       menu={{
                         items: [
-                          { key: 'action1', label: 'Bulk Update' },
-                          { key: 'action2', label: 'Bulk Delete' },
-                          { key: 'action3', label: 'Export Selected' }
+                          { key: 'discarded', label: 'Mark as Discarded' },
+                          { key: 'lost', label: 'Mark as Lost' },
+                          { key: 'iqa', label: 'Mark as IQA' },
+                          { key: 'return', label: 'Return to Shipper' },
+                          { key: 'delivered', label: 'Mark as Delivered' }
                         ]
                       }}
                     >
