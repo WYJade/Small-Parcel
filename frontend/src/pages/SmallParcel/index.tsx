@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Layout, Input, Button, Table, Space, Dropdown, Menu, Tag, Checkbox } from 'antd'
+import { Layout, Input, Button, Table, Space, Dropdown, Menu, Tag, Radio } from 'antd'
 import { SearchOutlined, FilterOutlined, SettingOutlined, DownOutlined, InboxOutlined, DownloadOutlined } from '@ant-design/icons'
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
@@ -169,6 +169,7 @@ const mockOrders: SmallParcelOrder[] = [
 
 function SmallParcelPage() {
   const navigate = useNavigate()
+  const [orderType, setOrderType] = useState<'active' | 'archived'>('active')
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
     pageSize: 10,
@@ -401,8 +402,18 @@ function SmallParcelPage() {
                 </p>
               </div>
               <Space size="middle">
-                <Checkbox>Archived Date Only</Checkbox>
-                <Button icon={<DownloadOutlined />} size="small">Export</Button>
+                <Radio.Group 
+                  value={orderType} 
+                  onChange={(e) => setOrderType(e.target.value)}
+                  buttonStyle="solid"
+                  size="small"
+                >
+                  <Radio.Button value="active">Active Orders</Radio.Button>
+                  <Radio.Button value="archived">Archived Orders</Radio.Button>
+                </Radio.Group>
+                <Button icon={<DownloadOutlined />} size="small">
+                  Export
+                </Button>
                 <Dropdown
                   menu={{
                     items: [
@@ -419,7 +430,7 @@ function SmallParcelPage() {
               </Space>
             </div>
 
-            {/* 搜索和过滤栏 */}
+            {/* 搜索和过滤栏 - 根据订单类型显示不同的查询条件 */}
             <div style={{ padding: '12px 24px', borderBottom: '1px solid #f0f0f0', background: '#fafafa' }}>
               <Space size="middle">
                 <Input
@@ -432,20 +443,37 @@ function SmallParcelPage() {
                   style={{ width: 150, fontSize: '13px' }}
                   size="small"
                 />
-                <Button 
-                  icon={<FilterOutlined />} 
-                  size="small"
-                  style={{ fontSize: '13px' }}
-                >
-                  More <span style={{ 
-                    background: '#1890ff', 
-                    color: '#fff', 
-                    borderRadius: '10px', 
-                    padding: '0 6px', 
-                    fontSize: '11px',
-                    marginLeft: '4px'
-                  }}>4</span>
-                </Button>
+                
+                {orderType === 'archived' ? (
+                  <>
+                    <Input
+                      placeholder="CUSTOMER NAME"
+                      style={{ width: 180, fontSize: '13px' }}
+                      size="small"
+                    />
+                    <Input
+                      placeholder="DELIVERY TIME"
+                      style={{ width: 180, fontSize: '13px' }}
+                      size="small"
+                    />
+                  </>
+                ) : (
+                  <Button 
+                    icon={<FilterOutlined />} 
+                    size="small"
+                    style={{ fontSize: '13px' }}
+                  >
+                    More <span style={{ 
+                      background: '#1890ff', 
+                      color: '#fff', 
+                      borderRadius: '10px', 
+                      padding: '0 6px', 
+                      fontSize: '11px',
+                      marginLeft: '4px'
+                    }}>4</span>
+                  </Button>
+                )}
+                
                 <Button 
                   icon={<SearchOutlined />} 
                   size="small"
