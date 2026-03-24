@@ -1,0 +1,312 @@
+.print-airbills-page {
+  background: #f5f5f5;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.print-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
+.print-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0;
+}
+
+.airbills-container {
+  max-width: 8.5in;
+  margin: 0 auto;
+}
+
+.airbill-page {
+  background: white;
+  padding: 0.5in;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  page-break-after: always;
+}
+
+.airbill-page:last-child {
+  page-break-after: auto;
+}
+
+.airbill-header {
+  margin-bottom: 20px;
+}
+
+.airbill-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #595959;
+  margin: 0;
+}
+
+.airbill-content {
+  border: 2px solid #000;
+  font-family: Arial, sans-serif;
+}
+
+/* Top Section - Logo, Barcode, Contact Info */
+.top-section {
+  display: grid;
+  grid-template-columns: 120px 1fr 150px;
+  align-items: start;
+  padding: 20px 20px 15px 20px;
+  border-bottom: 1px solid #000;
+  gap: 15px;
+}
+
+.lso-logo {
+  padding-top: 0;
+}
+
+.barcode-section {
+  text-align: center;
+  padding-top: 5px;
+}
+
+.airbill-number {
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #000;
+}
+
+.contact-info {
+  text-align: right;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #000;
+  padding-top: 5px;
+}
+
+.contact-name {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.contact-phone {
+  font-weight: 400;
+}
+
+.contact-website {
+  font-weight: 400;
+}
+
+/* Address Section - Ship To and From side by side */
+.address-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #000;
+  gap: 0;
+}
+
+.ship-to-block {
+  padding: 15px 20px;
+  border-right: 1px solid #000;
+}
+
+.from-block {
+  padding: 15px 20px;
+}
+
+.address-label,
+.from-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.address-name {
+  font-weight: 700;
+  font-size: 12px;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.address-line,
+.from-line {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #000;
+  margin: 2px 0;
+}
+
+/* Service Banner */
+.service-banner {
+  display: flex;
+  align-items: center;
+  background: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #000;
+  gap: 15px;
+}
+
+.service-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 15px;
+  border: 2px solid #fff;
+  font-size: 16px;
+  font-weight: 700;
+  min-width: 70px;
+}
+
+.service-info {
+  flex: 1;
+}
+
+.service-type {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.service-desc {
+  font-size: 10px;
+  font-weight: 400;
+}
+
+/* Package Details */
+.package-details {
+  padding: 12px 20px;
+  border-bottom: 1px solid #000;
+  font-size: 9px;
+  line-height: 1.8;
+  color: #000;
+}
+
+.detail-line {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+}
+
+.detail-line-full {
+  margin: 3px 0;
+}
+
+/* Fold Line */
+.fold-line {
+  border-bottom: 2px dashed #000;
+  padding: 8px 20px;
+  background: #fff;
+}
+
+.fold-text {
+  font-size: 8px;
+  color: #000;
+  text-align: center;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Shipping Instructions */
+.shipping-instructions {
+  padding: 12px 20px;
+  border-bottom: 1px solid #000;
+}
+
+.instruction-title {
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #000;
+}
+
+.shipping-instructions ol {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 9px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.shipping-instructions li {
+  margin: 4px 0;
+}
+
+/* Warning Section */
+.warning-section {
+  padding: 10px 20px;
+  border-bottom: 1px solid #000;
+  background: #fff;
+}
+
+.warning-section p {
+  margin: 0;
+  font-size: 8px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.warning-section strong {
+  font-weight: 700;
+}
+
+/* Liability Section */
+.liability-section {
+  padding: 10px 20px;
+  background: #fff;
+}
+
+.liability-section p {
+  margin: 0;
+  font-size: 7px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.liability-section strong {
+  font-weight: 700;
+}
+
+.print-actions {
+  text-align: center;
+  margin-top: 40px;
+  padding: 30px;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-airbills-page {
+    background: white;
+    padding: 0;
+  }
+
+  .airbills-container {
+    max-width: 100%;
+  }
+
+  .airbill-page {
+    box-shadow: none;
+    margin: 0;
+    padding: 0.25in;
+    page-break-after: always;
+  }
+
+  .airbill-page:last-child {
+    page-break-after: auto;
+  }
+
+  @page {
+    size: letter;
+    margin: 0.5in;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

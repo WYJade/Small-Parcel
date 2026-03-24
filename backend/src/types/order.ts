@@ -126,3 +126,54 @@ export interface ExportParams {
   search?: string
   format: 'csv' | 'excel'
 }
+
+// ===== Weather Delay 相关类型和常量 =====
+
+export const INELIGIBLE_STATUSES_FOR_WEATHER_DELAY = [
+  'Delivered',
+  'Discarded',
+  'Lost',
+  'Return to Sender',
+  'Created',
+] as const;
+
+export const WEATHER_DELAY_STATUS = {
+  status: 'Delay Exception',
+  statusCode: 'Z',
+  subStatus: 'Weather Delay',
+  scanCode: 'WX1',
+} as const;
+
+export interface WeatherDelayRequest {
+  airbillNos: string[];
+}
+
+export interface WeatherDelaySuccessResponse {
+  success: true;
+  data: {
+    updatedCount: number;
+    orders: Array<{
+      airbillNo: string;
+      status: string;
+      statusCode: string;
+      subStatus: string;
+      scanCode: string;
+    }>;
+  };
+}
+
+export interface WeatherDelayErrorResponse {
+  success: false;
+  error: {
+    code: string;
+    message: string;
+    ineligibleOrders?: Array<{
+      airbillNo: string;
+      currentStatus: string;
+    }>;
+  };
+}
+
+export function isEligibleForWeatherDelay(status: string): boolean {
+  return !(INELIGIBLE_STATUSES_FOR_WEATHER_DELAY as readonly string[]).includes(status);
+}

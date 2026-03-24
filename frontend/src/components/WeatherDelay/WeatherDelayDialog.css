@@ -1,0 +1,14 @@
+.weather-delay-dialog .ant-modal-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 20px 32px;
+}
+
+.weather-delay-dialog .ant-modal-footer {
+  border-top: 1px solid #f0f0f0;
+  padding: 16px 32px;
+}
+
+.weather-delay-dialog .ant-modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}

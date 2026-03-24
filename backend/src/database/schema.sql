@@ -96,6 +96,15 @@ $$ language 'plpgsql';
 CREATE TRIGGER update_orders_updated_at BEFORE UPDATE ON orders
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+-- 新增状态码和子状态字段（Weather Delay 功能）
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS status_code VARCHAR(10);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS sub_status VARCHAR(100);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS scan_code VARCHAR(20);
+
+-- 为新字段创建索引
+CREATE INDEX IF NOT EXISTS idx_orders_status_code ON orders (status_code);
+CREATE INDEX IF NOT EXISTS idx_orders_scan_code ON orders (scan_code);
+
 -- 插入示例数据（用于测试）
 INSERT INTO orders (airbill_no, customer_name, billing_ref, status, service_type, service_center, from_city, to_city, to_attn, to_zip, create_time, last_operation_time, archive_flag)
 VALUES 

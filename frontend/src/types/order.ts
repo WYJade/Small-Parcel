@@ -89,3 +89,36 @@ export interface OrderQueryParams {
   sortBy?: string
   sortOrder?: 'asc' | 'desc'
 }
+
+// ===== Weather Delay 相关类型和常量 =====
+
+// 不可标记 Weather Delay 的状态列表
+export const INELIGIBLE_STATUSES_FOR_WEATHER_DELAY = [
+  'Delivered',
+  'Discarded',
+  'Lost',
+  'Return to Sender',
+  'Created',
+] as const;
+
+// Weather Delay 状态常量
+export const WEATHER_DELAY_STATUS = {
+  status: 'Delay Exception',
+  statusCode: 'Z',
+  subStatus: 'Weather Delay',
+  scanCode: 'WX1',
+} as const;
+
+/**
+ * 校验订单是否符合 Weather Delay 标记条件
+ */
+export function isEligibleForWeatherDelay(status: string): boolean {
+  return !(INELIGIBLE_STATUSES_FOR_WEATHER_DELAY as readonly string[]).includes(status);
+}
+
+/**
+ * 批量校验，返回不符合条件的订单
+ */
+export function findIneligibleOrders<T extends { status: string }>(orders: T[]): T[] {
+  return orders.filter(order => !isEligibleForWeatherDelay(order.status));
+}
